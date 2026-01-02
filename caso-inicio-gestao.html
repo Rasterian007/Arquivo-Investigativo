@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Início da Gestão (2022) | Arquivo Investigativo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Padronizado */
+        :root { --bg-color: #050505; --card-bg: #111111; --text-main: #e0e0e0; --text-muted: #a0a0a0; --accent-red: #8a1c1c; --accent-gold: #c5a059; --font-title: 'Cinzel', serif; --font-body: 'Inter', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-color); color: var(--text-main); font-family: var(--font-body); line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        header { padding: 20px 0; border-bottom: 1px solid #222; background: rgba(5, 5, 5, 0.95); position: sticky; top: 0; z-index: 1000; }
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-family: var(--font-title); font-size: 1.5rem; font-weight: 700; color: var(--text-main); text-decoration: none; }
+        .logo span { color: var(--accent-red); }
+        .nav-links a { color: var(--text-muted); text-decoration: none; margin-left: 30px; font-size: 0.9rem; text-transform: uppercase; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent-red); }
+        .case-header { padding: 80px 0 40px; text-align: center; border-bottom: 1px solid #222; background: linear-gradient(to bottom, #0a0a0a, #050505); }
+        .case-header h1 { font-family: var(--font-title); font-size: 2.5rem; color: var(--text-main); margin-bottom: 10px; }
+        .case-header .badge { background: var(--accent-red); color: #fff; padding: 5px 15px; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px; }
+        .section-title { font-family: var(--font-title); font-size: 1.8rem; margin: 60px 0 30px; border-left: 4px solid var(--accent-gold); padding-left: 15px; color: #fff; }
+        .prints-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 20px; }
+        .print-item { 
+            border: 1px solid #222; 
+            background: #000; 
+            padding: 10px; 
+            transition: transform 0.3s; 
+            position: relative;
+            overflow: hidden;
+        }
+        .print-item:hover { transform: scale(1.02); border-color: var(--accent-red); }
+        .print-item img { 
+            width: 100%; 
+            aspect-ratio: 1 / 1;
+            object-fit: cover;
+            display: block; 
+            opacity: 0.8; 
+            cursor: pointer; 
+            filter: blur(2px);
+            transition: filter 0.4s ease;
+        }
+        .print-item:hover img { filter: none; }
+        .print-item::after { content: 'CONFIDENCIAL'; position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-family: var(--font-title); font-size: 1.5rem; font-weight: 700; border: 2px solid var(--accent-red); padding: 10px 20px; background: rgba(0,0,0,0.6); pointer-events: none; transition: opacity 0.4s; }
+        .print-item:hover::after { opacity: 0; }
+        .print-caption { font-size: 0.8rem; color: var(--text-muted); margin-top: 10px; text-align: center; }
+        .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; background: #000; border: 1px solid #222; }
+        .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+        .audio-list { display: flex; flex-direction: column; gap: 20px; }
+        .audio-item { background: var(--card-bg); padding: 20px; border: 1px solid #222; display: flex; align-items: center; gap: 20px; }
+        .audio-info h4 { color: var(--accent-gold); margin-bottom: 5px; }
+        .audio-info p { font-size: 0.85rem; color: #777; }
+        audio { flex-grow: 1; height: 35px; }
+        footer { background-color: #000; padding: 50px 0; text-align: center; border-top: 1px solid #222; margin-top: 80px; }
+
+        /* Lightbox */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            padding: 20px;
+        }
+        .lightbox.active { display: flex; animation: fadeIn 0.3s ease; }
+        .lightbox img { max-width: 90%; max-height: 80vh; border: 2px solid var(--accent-red); box-shadow: 0 0 30px rgba(0,0,0,0.8); }
+        .lightbox-caption { color: #fff; margin-top: 15px; font-family: var(--font-title); font-size: 1.2rem; text-align: center; text-shadow: 0 2px 4px rgba(0,0,0,0.8); }
+        .close-lightbox { position: absolute; top: 20px; right: 30px; color: #fff; font-size: 40px; cursor: pointer; transition: 0.3s; }
+        .close-lightbox:hover { color: var(--accent-red); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* Lightbox Navigation */
+        .lightbox-nav { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; font-size: 3rem; padding: 20px; cursor: pointer; transition: 0.3s; z-index: 10001; user-select: none; }
+        .lightbox-nav:hover { background: var(--accent-red); }
+        .prev { left: 0; border-radius: 0 5px 5px 0; }
+        .next { right: 0; border-radius: 5px 0 0 5px; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Arquivo <span>Investigativo</span></a>
+                <div class="nav-links"><a href="linha-do-tempo.html">Voltar para Linha do Tempo</a></div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="case-header">
+        <div class="container">
+            <span class="badge">2022</span>
+            <h1>Início da Gestão Bal de Mimoso</h1>
+            <p style="color: var(--text-muted); max-width: 700px; margin: 20px auto;">Análise das primeiras medidas administrativas e contradições com o plano de governo.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <h2 class="section-title">Documentos e Evidências</h2>
+        <div class="prints-grid">
+            <div class="print-item"><img src="https://files.catbox.moe/3tobmp.jpg" alt="Plano" onclick="openLightbox(this)"><p class="print-caption">Promessas de Campanha Não Cumpridas</p></div>
+            <div class="print-item"><img src="https://files.catbox.moe/dnj7e8.jpg" alt="Decreto URL" onclick="openLightbox(this)"><p class="print-caption">Decreto (Via URL)</p></div>
+        </div>
+
+        <h2 class="section-title">Registros em Vídeo</h2>
+        <div class="video-grid">
+            <div class="video-wrapper"><iframe src="https://www.youtube.com/watch?v=QuSCQIODygc" title="Video" allowfullscreen></iframe></div>
+        </div>
+
+        <h2 class="section-title">Gravações de Áudio</h2>
+        <div class="audio-list">
+            <div class="audio-item">
+                <div class="audio-info"><h4>Áudio: Discurso de Posse</h4><p>Trecho onde o gestor promete transparência total.</p></div>
+                <audio controls src="https://files.catbox.moe/l8yr9w.mp3">Seu navegador não suporta áudio.</audio>
+            </div>
+            <!-- Exemplo de Áudio via URL -->
+            <div class="audio-item">
+                <div class="audio-info"><h4>Áudio: Entrevista Rádio</h4><p>Áudio carregado de link externo.</p></div>
+                <audio controls src="https://files.catbox.moe/i47029.mp3">Seu navegador não suporta áudio.</audio>
+            </div>
+        </div>
+    </div>
+    <footer><div class="container"><p style="color: #555; font-size: 0.8rem;">Arquivo Investigativo &copy; 2026</p></div></footer>
+
+    <div id="lightbox" class="lightbox" onclick="if(event.target === this) closeLightbox()">
+        <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
+        <button class="lightbox-nav prev" onclick="changeImage(-1)">&#10094;</button>
+        <button class="lightbox-nav next" onclick="changeImage(1)">&#10095;</button>
+        <img id="lightbox-img" src="" alt="Preview">
+        <p id="lightbox-caption" class="lightbox-caption"></p>
+    </div>
+
+    <script>
+        let currentImageIndex = 0;
+        const galleryImages = [];
+
+        function initGallery() {
+            galleryImages.length = 0;
+            const items = document.querySelectorAll('.print-item img[onclick*="openLightbox"]');
+            items.forEach((img, index) => {
+                galleryImages.push({ src: img.src, caption: img.nextElementSibling ? img.nextElementSibling.innerText : '' });
+                img.dataset.index = index;
+            });
+        }
+
+        function openLightbox(element) {
+            initGallery();
+            const index = parseInt(element.dataset.index);
+            if (!isNaN(index)) {
+                currentImageIndex = index;
+                updateLightbox();
+                document.getElementById('lightbox').classList.add('active');
+            }
+        }
+
+        function changeImage(n) {
+            currentImageIndex += n;
+            if (currentImageIndex >= galleryImages.length) currentImageIndex = 0;
+            if (currentImageIndex < 0) currentImageIndex = galleryImages.length - 1;
+            updateLightbox();
+        }
+
+        function updateLightbox() {
+            const img = document.getElementById('lightbox-img');
+            const caption = document.getElementById('lightbox-caption');
+            const data = galleryImages[currentImageIndex];
+            img.src = data.src;
+            caption.innerText = data.caption;
+        }
+
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+
+        // Converte links padrão do YouTube para Embed
+        document.addEventListener("DOMContentLoaded", function() {
+            // Navegação por teclado
+            document.addEventListener('keydown', function(e) {
+                if (!document.getElementById('lightbox').classList.contains('active')) return;
+                if (e.key === 'ArrowLeft') changeImage(-1);
+                if (e.key === 'ArrowRight') changeImage(1);
+                if (e.key === 'Escape') closeLightbox();
+            });
+
+            document.querySelectorAll('iframe').forEach(iframe => {
+                const src = iframe.src;
+                let videoId = null;
+                if (src.includes('youtube.com/watch')) {
+                    try { videoId = new URL(src).searchParams.get('v'); } catch(e){}
+                } else if (src.includes('youtu.be/')) {
+                    try { videoId = src.split('youtu.be/')[1].split('?')[0]; } catch(e){}
+                }
+                if (videoId) iframe.src = `https://www.youtube.com/embed/${videoId}`;
+            });
+        });
+    </script>
+</body>
+</html>

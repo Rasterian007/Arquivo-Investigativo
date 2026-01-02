@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acervo de Provas | Arquivo Investigativo</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-red: #8a1c1c;
+            --accent-gold: #c5a059;
+            --font-title: 'Cinzel', serif;
+            --font-serif: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #222;
+            background: rgba(5, 5, 5, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { font-family: var(--font-title); font-size: 1.5rem; font-weight: 700; color: var(--text-main); text-decoration: none; }
+        .logo span { color: var(--accent-red); }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent-red); }
+
+        /* Page Title */
+        .page-header {
+            padding: 80px 0 40px 0;
+            text-align: center;
+            border-bottom: 1px solid #222;
+            background: radial-gradient(circle at center, #1a0505 0%, #050505 70%);
+        }
+
+        .page-header h1 {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .page-header p {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--accent-gold);
+        }
+
+        /* Documents List Styles */
+        .archive-section { padding: 60px 0; flex-grow: 1; }
+
+        .archive-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .doc-item {
+            background-color: var(--card-bg);
+            border: 1px solid #222;
+            padding: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+
+        .doc-item:hover {
+            border-color: var(--accent-red);
+            transform: translateX(5px);
+            background-color: #161616;
+        }
+
+        .doc-info { flex: 1; padding-right: 20px; }
+
+        .doc-meta {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .doc-meta span { color: var(--accent-gold); margin-right: 10px; }
+
+        .doc-title {
+            font-family: var(--font-title);
+            font-size: 1.2rem;
+            color: #fff;
+            margin-bottom: 5px;
+        }
+
+        .doc-desc { font-size: 0.9rem; color: #888; }
+
+        .doc-actions { display: flex; gap: 10px; }
+
+        .btn-doc {
+            padding: 10px 20px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            text-decoration: none;
+            border: 1px solid #333;
+            color: var(--text-main);
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        .btn-doc.primary {
+            background-color: var(--accent-red);
+            border-color: var(--accent-red);
+            color: #fff;
+        }
+
+        .btn-doc:hover { background-color: #fff; color: #000; border-color: #fff; }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            background: #222;
+            border-radius: 2px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+        
+        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .doc-item { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(5, 5, 5, 0.98);
+                flex-direction: column;
+                padding: 20px 0;
+                text-align: center;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 15px 0; margin-left: 0; }
+        }
+
+        footer {
+            background-color: #000;
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Arquivo <span>Investigativo</span></a>
+                <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+                <div class="nav-links">
+                    <a href="index.html#casos">Casos</a>
+                    <a href="documentos.html" style="color: var(--accent-red);">Documentos</a>
+                    <a href="linha-do-tempo.html">Linha do Tempo</a>
+                    <a href="videos.html">Vídeos</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Acervo Probatório</h1>
+            <p>Arquivos e guias informativos do Arquivo.</p>
+        </div>
+    </section>
+
+    <section class="archive-section container">
+        <div class="archive-list">
+            <div class="doc-item">
+                <div class="doc-info">
+                    <div class="doc-meta"><span>PDF</span> 26 DEZ 2025 <span class="badge">GASTRONOMIA</span></div>
+                    <h3 class="doc-title">PDF oficial que cita Investigativo</h3>
+                    <p class="doc-desc">suposto esquema de corrupção e lavagem de dinheiro.</p>
+                </div>
+                <div class="doc-actions">
+                    <a href="https://transparencia.mpf.mp.br/conteudo/diarios-e-boletins/diario-eletronico-dmpf-e/2025/DMPF-EXTRAJUDICIAL-2025-05-06.pdf" download class="btn-doc primary">Baixar</a>
+                    <a href="https://transparencia.mpf.mp.br/conteudo/diarios-e-boletins/diario-eletronico-dmpf-e/2025/DMPF-EXTRAJUDICIAL-2025-05-06.pdf" target="_blank" class="btn-doc">Visualizar</a>
+                </div>
+            </div>
+
+            <div class="doc-item">
+                <div class="doc-info">
+                    <div class="doc-meta"><span>PDF</span> 26 DEZ 2025 <span class="badge">SAÚDE</span></div>
+                    <h3 class="doc-title">Diário Oficial do MPPE – 29/11/2024</h3>
+                    <p class="doc-desc">Pode conter procedimentos preparatórios e atos iniciais que antecedem investigações.</p>
+                </div>
+                <div class="doc-actions">
+                    <a href="https://cao.mppe.mp.br/documents/d/guest/diariooficialmppe-edicao-num1601-2024-11-29-1-" download class="btn-doc primary">Baixar</a>
+                    <a href="https://cao.mppe.mp.br/documents/d/guest/diariooficialmppe-edicao-num1601-2024-11-29-1-" target="_blank" class="btn-doc">Visualizar</a>
+                </div>
+            </div>
+
+            <div class="doc-item">
+                <div class="doc-info">
+                    <div class="doc-meta"><span>PDF</span> 26 DEZ 2025 <span class="badge">EDUCAÇÃO</span></div>
+                    <h3 class="doc-title">Diário Oficial do MPPE – 23/07/2025</h3>
+                    <p class="doc-desc">Documento institucional com registros formais do MP.</p>
+                </div>
+                <div class="doc-actions">
+                    <a href="https://portal.mppe.mp.br/documents/20121/1374836/DiarioOficialMPPE-Edicao+num1740-2025-07-23.pdf" download class="btn-doc primary">Baixar</a>
+                    <a href="https://portal.mppe.mp.br/documents/20121/1374836/DiarioOficialMPPE-Edicao+num1740-2025-07-23.pdf" target="_blank" class="btn-doc">Visualizar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p style="color: #555; font-size: 0.8rem;">Arquivo Investigativo &copy; 2026 - A verdade documentada.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

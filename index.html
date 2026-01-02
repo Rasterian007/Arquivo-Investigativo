@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arquivo Investigativo | A Verdade Documentada</title>
+    
+    <!-- Fontes Google: Cinzel (Cinemático) e Inter (Leitura) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-red: #8a1c1c; /* Vermelho escuro/sério */
+            --accent-gold: #c5a059; /* Dourado sutil para destaque */
+            --font-title: 'Cinzel', serif;
+            --font-serif: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Utilitários */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            font-family: var(--font-title);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Header / Nav */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #222;
+            position: fixed;
+            width: 100%;
+            background: rgba(5, 5, 5, 0.95);
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-main);
+            font-family: var(--font-title);
+        }
+
+        .logo span { color: var(--accent-red); }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a:hover { color: var(--accent-red); }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1555848962-6e79363ec58f?q=80&w=1920&auto=format&fit=crop'); /* Imagem genérica de arquitetura/governo escuro */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed; /* Efeito Parallax */
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+            opacity: 0;
+            animation: fadeIn 2s ease-in-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .hero-content p {
+            font-family: var(--font-serif);
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-muted);
+            max-width: 800px;
+            margin: 0 auto 40px auto;
+        }
+
+        .btn-cta {
+            padding: 15px 40px;
+            background-color: var(--accent-red);
+            color: #fff;
+            text-decoration: none;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 2px;
+            border: 1px solid var(--accent-red);
+            transition: all 0.3s ease;
+            display: inline-block;
+            animation: tremor 4s infinite; /* Tempo total do ciclo (espera + tremor) */
+        }
+
+        @keyframes tremor {
+            /* O tremor acontece do momento definido aqui (90%) até o final (100%).
+               Para aumentar o tempo que fica tremendo, diminua o 90% (ex: para 80%). */
+            0%, 90% { transform: translate(0, 0); }
+            91% { transform: translate(-1px, 1px); }
+            93% { transform: translate(1px, -1px); }
+            95% { transform: translate(-1px, -1px); }
+            97% { transform: translate(1px, 1px); }
+            99% { transform: translate(-1px, -1px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        @keyframes tremor-hover {
+            0% { transform: translate(0, 0); }
+            25% { transform: translate(-1px, 1px); }
+            50% { transform: translate(1px, -1px); }
+            75% { transform: translate(-1px, -1px); }
+            100% { transform: translate(0, 0); }
+        }
+
+        .btn-cta:hover {
+            background-color: transparent;
+            color: var(--accent-red);
+            animation: tremor-hover 0.8s infinite;
+        }
+
+        /* Seção de Casos */
+        .cases-section {
+            padding: 100px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            font-size: 2.5rem;
+            border-bottom: 2px solid var(--accent-red);
+            display: inline-block;
+            padding-bottom: 10px;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid #222;
+            padding: 30px;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-red);
+        }
+
+        .card-date {
+            color: var(--accent-gold);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        .read-more {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom: 1px solid var(--accent-red);
+            padding-bottom: 2px;
+        }
+
+        /* Botões de Ação nos Cards */
+        .card-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-card {
+            flex: 1;
+            padding: 10px 0;
+            text-align: center;
+            text-decoration: none;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            transition: all 0.3s;
+            border: 1px solid;
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-view {
+            border-color: var(--text-muted);
+            color: var(--text-main);
+        }
+
+        .btn-view:hover {
+            background-color: var(--text-muted);
+            color: #000;
+        }
+
+        .btn-download {
+            border-color: var(--accent-red);
+            color: var(--accent-red);
+        }
+
+        .btn-download:hover {
+            background-color: var(--accent-red);
+            color: #fff;
+        }
+
+        .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #000;
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 20px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Cursor piscando para o efeito de digitação no subtítulo */
+        #hero-subtitle::after {
+            content: '|';
+            color: var(--accent-red);
+            animation: blink 0.75s step-end infinite;
+            margin-left: 5px;
+            font-style: normal;
+        }
+        @keyframes blink {
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.2rem; }
+            .hamburger { display: block; }
+            .nav-links { 
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(5, 5, 5, 0.98);
+                flex-direction: column;
+                padding: 20px 0;
+                text-align: center;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 15px 0; margin-left: 0; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">Arquivo <span>Investigativo</span></div>
+                <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+                <div class="nav-links">
+                    <a href="#casos">Casos</a>
+                    <a href="documentos.html">Documentos</a>
+                    <a href="linha-do-tempo.html">Linha do Tempo</a>
+                    <a href="videos.html" style="color: var(--accent-red);">Videos</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>Arquivo Investigativo</h1>
+            <p id="hero-subtitle">"Arquivo investigativo com todo o histórico de notícias e informações públicas do caso."</p>
+            <a href="#casos" class="btn-cta">Ver os Fatos</a>
+        </div>
+    </section>
+
+    <section id="casos" class="cases-section container">
+        <h2 class="section-title">Investigações em Aberto</h2>
+        
+        <div class="grid">
+            <!-- Card 1 -->
+            <article class="card">
+                <span class="card-date">Outubro 2024</span>
+                <h3>Irregularidades em Licitações</h3>
+                <p>Análise detalhada sobre os contratos firmados sem a devida transparência no setor de infraestrutura.</p>
+                <div class="card-actions">
+                    <a href="https://transparencia.mpf.mp.br/conteudo/diarios-e-boletins/diario-eletronico-dmpf-e/2025/DMPF-EXTRAJUDICIAL-2025-05-06.pdf" target="_blank" class="btn-card btn-view">Visualizar</a>
+                    <a href="https://transparencia.mpf.mp.br/conteudo/diarios-e-boletins/diario-eletronico-dmpf-e/2025/DMPF-EXTRAJUDICIAL-2025-05-06.pdf" download class="btn-card btn-download">Baixar</a>
+                </div>
+            </article>
+
+            <!-- Card 2 -->
+            <article class="card">
+                <span class="card-date">Setembro 2024</span>
+                <h3>Desvio de Verbas na Saúde</h3>
+                <p>Documentação referente à falta de medicamentos e o destino incerto dos repasses federais.</p>
+                <div class="card-actions">
+                    <a href="https://cao.mppe.mp.br/documents/d/guest/diariooficialmppe-edicao-num1601-2024-11-29-1-" target="_blank" class="btn-card btn-view">Visualizar</a>
+                    <a href="https://cao.mppe.mp.br/documents/d/guest/diariooficialmppe-edicao-num1601-2024-11-29-1-" download class="btn-card btn-download">Baixar</a>
+                </div>
+            </article>
+
+            <!-- Card 3 -->
+            <article class="card">
+                <span class="card-date">Agosto 2024</span>
+                <h3>Nepotismo na Administração</h3>
+                <p>Mapeamento de cargos comissionados ocupados por familiares de gestores municipais.</p>
+                <div class="card-actions">
+                    <a href="https://portal.mppe.mp.br/documents/20121/1374836/DiarioOficialMPPE-Edicao+num1740-2025-07-23.pdf" target="_blank" class="btn-card btn-view">Visualizar</a>
+                    <a href="https://portal.mppe.mp.br/documents/20121/1374836/DiarioOficialMPPE-Edicao+num1740-2025-07-23.pdf" download class="btn-card btn-download">Baixar</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <h3>Arquivo Investigativo</h3>
+            <p>Documentação de Indícios de Irregularidades</p>
+            <p class="disclaimer">Este site tem fins documentais e informativos. Todas as informações são baseadas em dados públicos e denúncias verificadas.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+
+        // Efeito de digitação para o subtítulo
+        document.addEventListener('DOMContentLoaded', () => {
+            const text = '"Arquivo investigativo com todo o histórico de notícias e informações públicas do caso."';
+            const element = document.getElementById('hero-subtitle');
+            element.innerText = ''; // Limpa o texto inicial
+            let index = 0;
+
+            function typeWriter() {
+                if (index < text.length) {
+                    element.innerHTML += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 100); // Velocidade da digitação
+                }
+            }
+            
+            setTimeout(typeWriter, 500); // Delay inicial
+        });
+    </script>
+</body>
+</html>

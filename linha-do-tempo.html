@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cronologia da Gestão | Arquivo Investigativo</title>
+    
+    <!-- Fontes Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Inter:wght@300;400;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #050505;
+            --card-bg: #111111;
+            --text-main: #e0e0e0;
+            --text-muted: #a0a0a0;
+            --accent-red: #8a1c1c;
+            --accent-gold: #c5a059;
+            --font-title: 'Cinzel', serif;
+            --font-serif: 'Playfair Display', serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-body);
+            line-height: 1.6;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* Header (Consistente) */
+        header {
+            padding: 20px 0;
+            border-bottom: 1px solid #222;
+            background: rgba(5, 5, 5, 0.95);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav { display: flex; justify-content: space-between; align-items: center; }
+        
+        .logo { font-family: var(--font-title); font-size: 1.5rem; font-weight: 700; color: var(--text-main); text-decoration: none; }
+        .logo span { color: var(--accent-red); }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 30px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--accent-red); }
+
+        /* Page Title */
+        .page-header {
+            padding: 80px 0 60px 0;
+            text-align: center;
+            background: linear-gradient(to bottom, #0a0a0a, #050505);
+            border-bottom: 1px solid #222;
+        }
+
+        .page-header h1 {
+            font-family: var(--font-title);
+            font-size: 3rem;
+            margin-bottom: 10px;
+            color: var(--text-main);
+        }
+
+        .page-header p {
+            font-family: var(--font-serif);
+            font-style: italic;
+            color: var(--accent-gold);
+            font-size: 1.2rem;
+        }
+
+        /* Timeline Styles */
+        .timeline-section {
+            position: relative;
+            padding: 60px 0;
+        }
+
+        /* Linha Central */
+        .timeline-section::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            background-color: var(--accent-red);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -1px;
+            opacity: 0.5;
+        }
+
+        .timeline-item {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+            margin-bottom: 40px;
+        }
+
+        /* Lados */
+        .left { left: 0; text-align: right; }
+        .right { left: 50%; text-align: left; }
+
+        /* Bolinhas (Nós) */
+        .timeline-item::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            right: -8px;
+            background-color: var(--bg-color);
+            border: 2px solid var(--accent-gold);
+            top: 25px;
+            border-radius: 50%;
+            z-index: 1;
+            box-shadow: 0 0 10px rgba(197, 160, 89, 0.3);
+        }
+
+        .right::after { left: -8px; }
+
+        /* Conteúdo do Card */
+        .content {
+            padding: 30px;
+            background-color: var(--card-bg);
+            position: relative;
+            border: 1px solid #222;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .content:hover {
+            border-color: var(--accent-red);
+            transform: scale(1.02);
+        }
+
+        .year-badge {
+            display: inline-block;
+            background-color: var(--accent-red);
+            color: #fff;
+            padding: 5px 15px;
+            font-family: var(--font-title);
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .content h2 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #fff;
+        }
+
+        .content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .btn-details {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--accent-red);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--accent-red);
+            transition: color 0.3s, border-color 0.3s;
+        }
+        .btn-details:hover { color: #fff; border-color: #fff; }
+
+        .hamburger { display: none; font-size: 1.5rem; cursor: pointer; }
+
+        /* Responsividade */
+        @media screen and (max-width: 768px) {
+            .timeline-section::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
+            .timeline-item::after { left: 23px; }
+            .left, .right { left: 0; }
+            
+            .hamburger { display: block; }
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(5, 5, 5, 0.98);
+                flex-direction: column;
+                padding: 20px 0;
+                text-align: center;
+            }
+            .nav-links.active { display: flex; }
+            .nav-links a { margin: 15px 0; margin-left: 0; }
+        }
+
+        footer {
+            background-color: #000;
+            padding: 50px 0;
+            text-align: center;
+            border-top: 1px solid #222;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">Arquivo <span>Investigativo</span></a>
+                <div class="hamburger" onclick="toggleMenu()">&#9776;</div>
+                <div class="nav-links">
+                    <a href="index.html#casos">Casos</a>
+                    <a href="documentos.html">Documentos</a>
+                    <a href="linha-do-tempo.html" style="color: var(--text-main);">Linha do Tempo</a>
+                    <a href="videos.html" style="color: var(--accent-red);">Videos</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <div class="container">
+            <h1>Cronologia da Gestão</h1>
+            <p>2022 – 2025 | Uma linha do tempo construída com documentos, não versões.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="timeline-section">
+            <!-- 2025 -->
+            <div class="timeline-item right">
+                <div class="content">
+                    <span class="year-badge">2025</span>
+                    <h2>Operação-Pactum-Amicis.html</h2>
+                    <p>A Polícia Civil deflagrou a Operação-Pactum-Amicis.html em Pesqueira, com mandados de busca e apreensão, prisão, sequestro de bens e bloqueio de ativos, para reprimir uma organização criminosa suspeita de corrupção, fraude em licitação e lavagem de dinheiro.</p>
+                    <a href="Operação-Pactum-Amicis.html" class="btn-details">Ver Evidências</a>
+                </div>
+            </div>
+
+            <!-- 2024 -->
+            <div class="timeline-item left">
+                <div class="content">
+                    <span class="year-badge">2023</span>
+                    <h2>Irregularidades em Contratações de Voluntários</h2>
+                    <p>Multas a ex-gestores por contratar voluntários em funções que não se enquadram como voluntariado e pagamento indevido de bolsa-auxílio.</p>
+                    <a href="Irregularidades-em-Contratações.html" class="btn-details">Ver Evidências</a>
+                </div>
+            </div>
+
+            <!-- 2023 -->
+            <div class="timeline-item right">
+                <div class="content">
+                    <span class="year-badge">2023</span>
+                    <h2>Crise na Saúde Municipal</h2>
+                    <p>Período marcado pela falta de insumos nos postos de saúde e denúncias de superfaturamento na compra de materiais hospitalares.</p>
+                    <a href="caso-crise-saude.html" class="btn-details">Ver Evidências</a>
+                </div>
+            </div>
+
+            <!-- 2022 -->
+            <div class="timeline-item left">
+                <div class="content">
+                    <span class="year-badge">2022</span>
+                    <h2>Início da Gestão Bal de Mimoso</h2>
+                    <p>Assunção do cargo e primeiras medidas administrativas. Análise das promessas de campanha versus primeiras ações executadas.</p>
+                    <a href="caso-inicio-gestao.html" class="btn-details">Ver Evidências</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p style="color: #555; font-size: 0.8rem;">Arquivo Investigativo &copy; 2026 - A verdade documentada.</p>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMenu() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
